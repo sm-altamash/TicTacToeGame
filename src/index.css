@@ -43,34 +43,70 @@
 
 @layer utilities {
   .glass-morphism {
-    @apply backdrop-blur-2xl bg-white/30 border border-white/20 shadow-[0_4px_24px_-2px_rgba(155,135,245,0.12)];
+    @apply backdrop-blur-2xl bg-white/40 border border-white/30 shadow-[0_4px_30px_-2px_rgba(155,135,245,0.15)];
   }
 
   .text-gradient-primary {
-    @apply bg-gradient-to-br from-purple-500 via-pink-400 to-blue-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-br from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent;
   }
 }
 
-/* Animation keyframes and classes */
+/* Enhanced Animation keyframes and classes */
 @keyframes fade-in {
-  0% { opacity: 0; transform: translateY(10px);}
+  0% { opacity: 0; transform: translateY(15px);}
   100% { opacity: 1; transform: translateY(0);}
 }
+
 @keyframes scale-in {
-  0% { transform: scale(0.85); opacity: 0;}
+  0% { transform: scale(0.8); opacity: 0;}
   100% { transform: scale(1); opacity: 1;}
 }
+
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(139,92,246, 0.45);}
-  100% { box-shadow: 0 0 0 18px rgba(139,92,246, 0);}
+  0% { box-shadow: 0 0 0 0 rgba(139,92,246, 0.5);}
+  70% { box-shadow: 0 0 0 15px rgba(139,92,246, 0);}
+  100% { box-shadow: 0 0 0 0 rgba(139,92,246, 0);}
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes glow {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.2); }
+  100% { filter: brightness(1); }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.43s cubic-bezier(.44,1.03,.65,1.11);
+  animation: fade-in 0.5s cubic-bezier(.44,1.03,.65,1.11);
 }
+
 .animate-scale-in {
-  animation: scale-in 0.23s cubic-bezier(.44,1.03,.65,1.11);
+  animation: scale-in 0.35s cubic-bezier(.21,1.02,.65,1.59);
 }
+
 .animate-pulse {
-  animation: pulse 1.3s cubic-bezier(.4,0,.6,1) infinite;
+  animation: pulse 1.5s cubic-bezier(.4,0,.6,1) infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.8s infinite;
 }

@@ -63,7 +63,14 @@ const TicTacToeBoard: React.FC = () => {
     setBoard(Array(9).fill(null));
     setWinner(null);
     setWinningCombo(null);
-    setCurrent(prev => winner === "O" ? "X" : "O");
+    // If we have a winner, next game starts with the other player
+    // If it was a draw, alternate based on who went first previously
+    if (winner) {
+      setCurrent(winner === "X" ? "O" : "X");
+    } else if (showBanner) {
+      // This is a draw case
+      setCurrent(current === "X" ? "O" : "X");
+    }
     setShowBanner(false);
   };
 
@@ -79,12 +86,12 @@ const TicTacToeBoard: React.FC = () => {
       <div
         className="relative"
         style={{
-          // gradient border via padding + bg-clip
+          // Enhanced gradient border via padding + bg-clip
           background:
-            "linear-gradient(102.3deg, #b993f9 5.9%, #eaaee8 64%, #f8dbf5 89%)",
+            "linear-gradient(102.3deg, #b993f9 5.9%, #d978fa 45%, #f8dbf5 89%)",
           padding: "6px",
           borderRadius: "2.5rem",
-          boxShadow: "0 8px 44px 0 rgba(104,0,181,0.22)",
+          boxShadow: "0 12px 50px 0 rgba(104,0,181,0.28)",
         }}
       >
         <div
@@ -92,7 +99,7 @@ const TicTacToeBoard: React.FC = () => {
            bg-white/10 backdrop-blur-2xl rounded-3xl shadow-2xl glass"
           style={{
             background:
-              "linear-gradient(120deg,rgba(255,255,255,0.13) 10%,rgba(155,135,245,0.22) 44%,rgba(237,210,255,0.19) 90%)",
+              "linear-gradient(120deg,rgba(255,255,255,0.15) 10%,rgba(155,135,245,0.25) 44%,rgba(237,210,255,0.22) 90%)",
             borderRadius: "2rem",
           }}
         >
@@ -105,14 +112,14 @@ const TicTacToeBoard: React.FC = () => {
                 aria-label={`Cell ${i + 1}`}
                 onClick={() => handleCellClick(i)}
                 className={`group relative w-full h-full flex items-center justify-center transition
-                rounded-xl font-bold bg-white/15 border-2 border-white/20 backdrop-blur-lg
-                hover:shadow-[0_0_24px_0_#b993f9] hover:scale-[1.06]
+                rounded-xl font-bold bg-white/20 border-2 border-white/20 backdrop-blur-lg
+                hover:shadow-[0_0_28px_0_#b993f9] hover:scale-[1.07] hover:bg-white/30
                 ${cell ? "cursor-default" : "cursor-pointer"}
-                ${isWinCell ? "shadow-[0_0_0_2px_#a7f5ff,0_0_20px_1px_#c77dff] border-purple-400 bg-purple-100/50" : ""}
+                ${isWinCell ? "shadow-[0_0_0_3px_#a7f5ff,0_0_25px_2px_#c77dff] border-purple-400 bg-purple-100/60" : ""}
                 `}
                 style={{
                   animation: cell
-                    ? "fade-in 0.23s ease, scale-in 0.12s"
+                    ? "fade-in 0.3s ease-out, scale-in 0.15s"
                     : undefined,
                   fontSize: "2.1rem",
                   minHeight: 0,
@@ -122,21 +129,21 @@ const TicTacToeBoard: React.FC = () => {
               >
                 {cell === "X" && (
                   <X
-                    className="text-purple-700"
-                    size={56}
+                    className="text-purple-600"
+                    size={58}
                     style={{
-                      filter: "drop-shadow(0 0 7px #c77dff)",
-                      animation: "scale-in 0.24s cubic-bezier(.21,1.02,.65,1.59)",
+                      filter: "drop-shadow(0 0 10px #c77dff)",
+                      animation: "scale-in 0.35s cubic-bezier(.21,1.02,.65,1.59)",
                     }}
                   />
                 )}
                 {cell === "O" && (
                   <Circle
-                    className="text-sky-500"
-                    size={54}
+                    className="text-blue-400"
+                    size={56}
                     style={{
-                      filter: "drop-shadow(0 0 8px #3cc0fa)",
-                      animation: "scale-in 0.25s cubic-bezier(.21,1.02,.65,1.59)",
+                      filter: "drop-shadow(0 0 12px #3cc0fa)",
+                      animation: "scale-in 0.35s cubic-bezier(.21,1.02,.65,1.59)",
                     }}
                   />
                 )}
@@ -154,12 +161,12 @@ const TicTacToeBoard: React.FC = () => {
           className={`pointer-events-none transition-all duration-300 ease-in-out
             absolute left-1/2 z-20 -translate-x-1/2 w-[290px] sm:w-[340px]
             ${showBanner
-            ? "top-1/2 -translate-y-[170%] opacity-95 animate-fade-in"
+            ? "top-1/2 -translate-y-[170%] opacity-100 animate-fade-in"
             : "top-0 -translate-y-full opacity-0"}
             `}
         >
           {winner && (
-            <div className="flex items-center justify-center gap-3 px-6 py-3 rounded-2xl bg-white/60 backdrop-blur-xl shadow-xl glass-morphism animate-scale-in">
+            <div className="flex items-center justify-center gap-3 px-6 py-3 rounded-2xl bg-white/70 backdrop-blur-xl shadow-xl glass-morphism animate-scale-in">
               <Check size={32} className="text-green-600 drop-shadow" />
               <div className={`font-bold text-2xl tracking-wide text-gradient-primary animate-fade-in`}>
                 {winner} wins!
@@ -167,8 +174,8 @@ const TicTacToeBoard: React.FC = () => {
               <button
                 aria-label="Reset game"
                 onClick={handleReset}
-                className="ml-3 px-3 py-1 rounded-xl bg-purple-200 hover:scale-110 focus:scale-105 transition text-purple-700 font-semibold shadow"
-                style={{animation: "scale-in 0.22s"}}
+                className="ml-3 px-3 py-1 rounded-xl bg-gradient-to-r from-purple-300 to-pink-200 hover:scale-110 focus:scale-105 transition text-purple-800 font-semibold shadow animate-pulse"
+                style={{animation: "scale-in 0.22s, pulse 1.5s infinite"}}
               >
                 Reset
               </button>
@@ -176,13 +183,13 @@ const TicTacToeBoard: React.FC = () => {
           )}
           {!winner && showBanner && (
             <div className="flex items-center justify-center gap-3 px-6 py-3 rounded-2xl bg-white/70 backdrop-blur-xl shadow-xl glass-morphism animate-scale-in">
-              <AlertCircle size={28} className="text-neutral-500 mr-1" />
+              <AlertCircle size={28} className="text-amber-500 mr-1" />
               <div className="font-bold text-xl text-gray-700">Draw!</div>
               <button
                 aria-label="Reset game"
                 onClick={handleReset}
-                className="ml-3 px-3 py-1 rounded-xl bg-gradient-to-r from-purple-200 via-pink-200 to-blue-200 hover:scale-110 transition text-purple-800 font-semibold shadow"
-                style={{animation: "scale-in 0.22s"}}
+                className="ml-3 px-3 py-1 rounded-xl bg-gradient-to-r from-purple-200 via-pink-200 to-blue-200 hover:scale-110 transition text-purple-800 font-semibold shadow animate-pulse"
+                style={{animation: "scale-in 0.22s, pulse 1.5s infinite"}}
               >
                 Reset
               </button>
@@ -193,7 +200,7 @@ const TicTacToeBoard: React.FC = () => {
       {/* Reset button when game ongoing */}
       {!showBanner && (
         <button
-          className="mt-6 px-6 py-2 rounded-xl font-semibold text-base bg-gradient-to-br from-purple-400 to-pink-200 hover:scale-105 text-purple-900 shadow-lg transition focus:ring-2 focus:ring-purple-300"
+          className="mt-6 px-6 py-2 rounded-xl font-semibold text-base bg-gradient-to-br from-purple-400 to-pink-300 hover:scale-105 hover:brightness-105 text-purple-900 shadow-lg transition focus:ring-2 focus:ring-purple-300"
           style={{animation: "fade-in 0.5s"}}
           onClick={handleReset}
         >
@@ -205,8 +212,11 @@ const TicTacToeBoard: React.FC = () => {
         <div className="mt-3 font-medium text-lg text-gray-700 animate-fade-in">
           <span
             className={`transition font-bold mr-1
-              ${current === "X" ? "text-purple-700 animate-pulse" : "text-sky-600 animate-pulse"}
+              ${current === "X" ? "text-purple-700 animate-pulse" : "text-blue-500 animate-pulse"}
             `}
+            style={{
+              filter: current === "X" ? "drop-shadow(0 0 3px rgba(147, 51, 234, 0.5))" : "drop-shadow(0 0 3px rgba(59, 130, 246, 0.5))"
+            }}
           >
             {current}
           </span>
